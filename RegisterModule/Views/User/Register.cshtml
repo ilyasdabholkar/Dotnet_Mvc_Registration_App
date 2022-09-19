@@ -1,0 +1,426 @@
+﻿@using RegisterModule.Enums
+@model RegisterModule.Models.User
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Register";
+}
+@*style="display:flex;justify-content:center"*@
+<style>
+    fieldset.scheduler-border {
+        border: solid 1px #DDD !important;
+        padding: 0 10px 10px 10px;
+        border-bottom: none;
+    }
+
+    legend.scheduler-border {
+        width: auto !important;
+        border: none;
+        font-size: 14px;
+    }
+    legend{
+        font-size : 20px;
+    }
+    .required{
+        color:red;
+        font-size:14px;
+        font-weight:bold;
+    }
+</style>
+<div>
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-@TempData["type"]" role="alert">
+            @TempData["msg"]
+        </div>
+    }
+    <form enctype="multipart/form-data" asp-action="Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+            <legend class="float-none w-auto">
+                Log-In Details
+            </legend>
+            <div class="col-8">
+                <div class="form-group row m-2">
+                    <label asp-for="Email" class="col-4 col-form-label">Email Address<sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="AlternateEmail" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="AlternateEmail" class="form-control" />
+                        <span asp-validation-for="AlternateEmail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="FirstName" class="col-4 control-label">First Name<sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="LastName" class="col-4 control-label">Last Name<sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="Password" class="col-4 control-label">Choose a Password <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="ConfirmPassword" class="col-4 control-label">Re-enter Password <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="JobType" class="col-4 control-label">Looking For <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="JobType" class="form-control">
+                            <option value="">-Select type-</option>
+                            <option value="Internship/Projects/Part-Time jobs">Internship/Projects/Part-Time jobs</option>
+                            <option value="Jobs">Jobs (fulltime,undergraduate,retirement)</option>
+                            <option value="Overseas Jobs">Overseas Jobs</option>
+                        </select>
+                        <span asp-validation-for="JobType" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="EmploymentStatus" class="col-4 control-label">Your Status <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="EmploymentStatus" class="form-control">
+                            <option value="">-Select type-</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <span asp-validation-for="EmploymentStatus" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+            <legend class="float-none w-auto">
+                Personal Details
+            </legend>
+            <div class="col-8">
+
+                <div class="form-group row m-2">
+                    <label asp-for="PhoneNo" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="PhoneNo" class="form-control" />
+                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="MobileNo" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="MobileNo" class="form-control" />
+                        <span asp-validation-for="MobileNo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="DateOfBirth" class="col-4 control-label"> Date Of Birth <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="Gender" class="col-4 control-label"> Gender <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select class="form-control" asp-for="Gender" asp-items="@ViewBag.GenderList">
+                            <option value=""> Select Gender</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="MaritialStatus" class="col-4 control-label">Maritial Status <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="MaritialStatus" class="form-control" />
+                        <span asp-validation-for="MaritialStatus" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="CountryId" class="col-4 control-label">Country <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="CountryId" class="form-control" id="DdlCountry" asp-items="@ViewBag.CountryList">
+                            <option value=""> Select Country</option>
+                        </select>
+                        <span asp-validation-for="CountryId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="StateId" class="col-4 control-label">State <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="StateId" class="form-control" id="DdlState">
+                            <option value=""> Select State</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="District" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="District" class="form-control" />
+                        <span asp-validation-for="District" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="CityId" class="col-4 control-label">City <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="CityId" class="form-control" id="DdlCity">
+                            <option value=""> Select Country</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="Locality" class="col-4 control-label">Locality <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="Locality" class="form-control" />
+                        <span asp-validation-for="Locality" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="ZipCode" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="ZipCode" class="form-control" />
+                        <span asp-validation-for="ZipCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+            <legend class="float-none w-auto">
+                Education Qualification
+            </legend>
+            <div class="col-8">
+
+                <div class="form-group row m-2">
+                    <label asp-for="HighestQualification" class="col-4 control-label">Highest Qualification Held <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="HighestQualification" class="form-control">
+                            <option value="" selected="selected" disabled="disabled">-Select Highest Qualification-</option>
+                            <option value="No formal education">No formal education</option>
+                            <option value="Primary education">Primary education</option>
+                            <option value="Secondary education">Secondary education or high school</option>
+                            <option value="GED">GED</option>
+                            <option value="Vocational qualification">Vocational qualification</option>
+                            <option value="Bachelor's degree">Bachelor's degree</option>
+                            <option value="Master's degree">Master's degree</option>
+                            <option value="Doctorate or higher">Doctorate or higher</option>
+                        </select>
+                        <span asp-validation-for="HighestQualification" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="Specialization" class="col-4 control-label">Specialization <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="Specialization" class="form-control">
+                            <option value="">-Select Specialization-</option>
+                            <option value="IT">IT</option>
+                            <option value="CS">CS</option>
+                            <option value="Maths">Maths</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                        <span asp-validation-for="Specialization" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="Institute" class="col-4 control-label">Institute <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="Institute" class="form-control">
+                            <option value="">-Select Institute-</option>
+                            <option value="IISc">IISc</option>
+                            <option value="Jawahar Lal Nehru University">Jawahar Lal Nehru University</option>
+                            <option value="University Of Mumbai">University Of Mumbai</option>
+                            <option value="Indian Institute of Science Education & Research Bhopal">Indian Institute of Science Education & Research Bhopal</option>
+                            <option value="Mahatma Gandhi University">Mahatma Gandhi University</option>
+                        </select>
+                        <span asp-validation-for="Institute" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="OtherInstitute" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="OtherInstitute" class="form-control" />
+                        <span asp-validation-for="OtherInstitute" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+            <legend class="float-none w-auto">
+                Professional Details
+            </legend>
+            <div class="col-8">
+
+                <div class="form-group row m-2">
+                    <label asp-for="PrefferedLocation" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <select asp-for="PrefferedLocation" class="form-control">
+                            <option value="">-Select-Preferd-Location-</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Delhi ">Delhi</option>
+                            <option value="Noida">Pune</option>
+                        </select>
+                        <span asp-validation-for="PrefferedLocation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="ReadyToRelocate" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="ReadyToRelocate" type="radio" id="RelocateChoice1"
+                               name="Relocate" value="True" class="form-check-input">
+                        <label for="RelocateChoice1">Yes</label>
+
+                        <input asp-for="ReadyToRelocate" type="radio" id="RelocateChoice2"
+                               name="Relocate" value="False" class="form-check-input" checked>
+                        <label for="RelocateChoice2">No</label>
+                        <span asp-validation-for="ReadyToRelocate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="TotalExperience" class="col-4 control-label">Total Experience <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="TotalExperience" class="form-control" />
+                        <span asp-validation-for="TotalExperience" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="JobCategory" class="col-4 control-label">Job Category <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <select asp-for="JobCategory" class="form-control">
+                            <option value="">-Select Job Category-</option>
+                            <option value="Testing">Testing</option>
+                            <option value="Development">Development</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Hr">HR</option>
+                        </select>
+                        <span asp-validation-for="JobCategory" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="KeySkills" class="col-4 control-label">Key Skills <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="KeySkills" class="form-control" />
+                        <span asp-validation-for="KeySkills" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="CurrentIndustry" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <select asp-for="CurrentIndustry" class="form-control">
+                            <option value="">-Select Industry-</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT">IT</option>
+                            <option value="Sales">Sales</option>
+                        </select>
+                        <span asp-validation-for="CurrentIndustry" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="CurrentEmployer" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="CurrentEmployer" class="form-control" />
+                        <span asp-validation-for="CurrentEmployer" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="CurrentDesignation" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="CurrentDesignation" class="form-control" />
+                        <span asp-validation-for="CurrentDesignation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="PreviousEmployer" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="PreviousEmployer" class="form-control" />
+                        <span asp-validation-for="PreviousEmployer" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="PreviousDesignation" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="PreviousDesignation" class="form-control" />
+                        <span asp-validation-for="PreviousDesignation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="NoticePeriod" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <select asp-for="NoticePeriod" class="form-control">
+                            <option value="Immediately">Immediately</option>
+                            <option value="30 Days">30 Days</option>
+                            <option value="60 Days">60 Days</option>
+                            <option value="90 Days">90 Days</option>
+                        </select>
+                        <span asp-validation-for="NoticePeriod" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <label asp-for="Ctc" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="Ctc" class="form-control" />
+                        <span asp-validation-for="Ctc" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="ResumeTitle" class="col-4 control-label">Resume Title <sup class='required'>*</sup></label>
+                    <div class="col-8">
+                        <input asp-for="ResumeTitle" class="form-control" />
+                        <span asp-validation-for="ResumeTitle" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label class="col-4 control-label">Upload Resume</label>
+                    <div class="col-8">
+                        <input type="file" name="resume" class="form-control" id="formFile">
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <label asp-for="Resume" class="col-4 control-label"></label>
+                    <div class="col-8">
+                        <input asp-for="Resume" class="form-control" />
+                        <span asp-validation-for="Resume" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group text-center">
+            <input type="submit" value="Create" class="btn btn-primary mt-4" />
+        </div>
+    </form>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/Register.js"></script>
