@@ -15,6 +15,10 @@ namespace RegisterModule.Context
         public DbSet<City> City { get; set; }
         public DbSet<User> User { get; set; }
 
+        public DbSet<JobType> JobTypes { get; set; }
+
+        public DbSet<UserJobType> UserJobType { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

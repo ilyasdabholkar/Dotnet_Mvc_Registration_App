@@ -17,12 +17,18 @@ builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IStateRepository, StateRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IUserRepository, UserReposiotory>();
+builder.Services.AddScoped<IJobTypeRepository, JobTypeRepository>();
+builder.Services.AddScoped<IUserJobTypeRepository, UserJobTypeRepository>();
 
 //Services
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IStateService, StateService>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IJobTypeService, JobTypeService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IUserJobTypeService, UserJobTypeService>();
 
 
 var app = builder.Build();
@@ -47,6 +53,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Register}/{id?}");
+    pattern: "{controller=User}/{action=DisplayUserData}/{id?}");
 
 app.Run();

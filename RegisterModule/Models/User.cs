@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace RegisterModule.Models
 {
     public class User
@@ -22,8 +23,11 @@ namespace RegisterModule.Models
         [Display(Name = "Alternate Email Id")]
         [DataType(DataType.EmailAddress)]
         [StringLength(60, MinimumLength = 6)]
+        //[Remote("DoesUserAlternateEmailExist", "User", HttpMethod = "POST", ErrorMessage = "User With This Alternate Address Already Exists")]
+        [Remote("IsEmailSame", "User", HttpMethod = "POST", AdditionalFields = "Email", ErrorMessage = "Alternate Email Address And Email Address Cannot Be Same")]
         [RegularExpression(@"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$", ErrorMessage = "Please Enter A Valid Alternate Email Address")]
         public string? AlternateEmail { get; set; } = string.Empty;
+
 
 
         [Required]
@@ -38,6 +42,7 @@ namespace RegisterModule.Models
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Last Name")]
         public string? LastName { get; set; }
 
+        [NotMapped]
         [Required]
         [DataType("Password")]
         [Display(Name = "Choose a Password")]
@@ -53,7 +58,13 @@ namespace RegisterModule.Models
         [Compare("Password")]
         public string? ConfirmPassword { get; set; }
 
+        public Byte[]? PasswordHash { get; set; }
+
         [Required]
+        public Byte[]? PasswordSalt { get; set; }
+
+        [Required]
+        [NotMapped]
         [Display(Name = "Looking For")]
         [StringLength(80)]
         public string? JobType { get; set; }
@@ -63,15 +74,21 @@ namespace RegisterModule.Models
         [StringLength(40)]
         public string? EmploymentStatus { get; set; }
 
-        [Display(Name = "Phone Number")]
-        public string? PhoneNo { get; set; } = "";
 
+        [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        public string? PhoneNo { get; set; } = string.Empty;
+
+        [Required]
         [Display(Name = "Mobile")]
-        [RegularExpression("^\\+?[1-9][0-9]{7,14}$", ErrorMessage = "Please Enter A Valid Mobile Number")]
-        public string? MobileNo { get; set; } = "";
+        [Remote("DoesUserMobileNoExists", "User", HttpMethod = "POST", ErrorMessage = "User With This Mobile Number Already Exists")]
+        [RegularExpression(@"^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$", ErrorMessage = "Please Enter A Valid Mobile Number")]
+        public string? MobileNo { get; set; } = string.Empty;
+
 
         [Required]
         [Display(Name = "Date Of Birth")]
+        [Remote("IsDateValid", "User", HttpMethod = "POST", ErrorMessage = "Age must be greater than 18")]
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
@@ -93,7 +110,8 @@ namespace RegisterModule.Models
         public int? StateId { get; set; }
 
         [Display(Name = "District")]
-        public string? District { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid District Name")]
+        public string? District { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "City")]
@@ -124,11 +142,11 @@ namespace RegisterModule.Models
         [Display(Name = "Please specify(if any other institute)")]
         [StringLength(30)]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Institute Name")]
-        public string? OtherInstitute { get; set; } = "";
+        public string? OtherInstitute { get; set; } = string.Empty;
 
-        [Display(Name = "Preffered Location")]
+        [Display(Name = "Preferred Location")]
         [StringLength(30)]
-        public string? PrefferedLocation { get; set; } = "";
+        public string? PrefferedLocation { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Are you ready to relocate?")]
@@ -138,39 +156,45 @@ namespace RegisterModule.Models
         [Display(Name = "Total Experience (Months)")]
         public int? TotalExperience { get; set; }
 
+        [NotMapped]
+        public int? ExperienceYears { get; set; }
+
+        [NotMapped]
+        public int? ExperienceMonths { get; set; }
+
         [Required]
         [Display(Name = "Job Category")]
         [StringLength(40)]
         public string? JobCategory { get; set; }
 
         [Display(Name = "Key Skills")]
-        [StringLength(40)]
+        [StringLength(40, MinimumLength = 2)]
         public string? KeySkills { get; set; }
 
         [Display(Name = "Current Industry")]
         [StringLength(30)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Industry")]
-        public string? CurrentIndustry { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Industry")]
+        public string? CurrentIndustry { get; set; } = string.Empty;
 
         [Display(Name = "Current Employer")]
         [StringLength(30)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Employer")]
-        public string? CurrentEmployer { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Employer")]
+        public string? CurrentEmployer { get; set; } = string.Empty;
 
         [Display(Name = "Current Designation")]
         [StringLength(30)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Designation")]
-        public string? CurrentDesignation { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Designation")]
+        public string? CurrentDesignation { get; set; } = string.Empty;
 
         [Display(Name = "Previous Employer")]
         [StringLength(30)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Employer")]
-        public string? PreviousEmployer { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Employer")]
+        public string? PreviousEmployer { get; set; } = string.Empty;
 
         [Display(Name = "Previous Designation")]
         [StringLength(30)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Enter A Valid Designation")]
-        public string? PreviousDesignation { get; set; } = "";
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Designation")]
+        public string? PreviousDesignation { get; set; } = string.Empty;
 
         [Display(Name = "Notice Period")]
         [StringLength(15)]
@@ -179,15 +203,22 @@ namespace RegisterModule.Models
         [Display(Name = "CTC (per anum)")]
         public int? Ctc { get; set; } = 0;
 
+        [NotMapped]
+        public int? CtcLakhs { get; set; } = 0;
+
+        [NotMapped]
+        public int? CtcThousands { get; set; } = 0;
+
         [Required]
         [Display(Name = "Resume Title")]
         [StringLength(25)]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Please Enter A Valid Resume Title")]
+        [RegularExpression(@"^([A-Za-z ]|[0-9]|_)+$", ErrorMessage = "Please Enter A Valid Resume Title")]
         public string? ResumeTitle { get; set; }
 
-        public string? ResumePath { get; set; } = "";
+        public string? ResumePath { get; set; } = string.Empty;
 
-        public string? Resume { get; set; } = "";
+        [System.Web.Mvc.AllowHtml]
+        public string? Resume { get; set; } = string.Empty;
 
         public bool? IsDeleted { get; set; } = false;
 
@@ -203,6 +234,8 @@ namespace RegisterModule.Models
 
         [ForeignKey("CityId")]
         public virtual City? City { get; set; }
+
+        public virtual ICollection<UserJobType> UserJobTypes { get; set; }
 
     }
 }

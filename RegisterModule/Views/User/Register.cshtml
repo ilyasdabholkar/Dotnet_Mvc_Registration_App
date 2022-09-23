@@ -5,35 +5,20 @@
 @{
     ViewData["Title"] = "Register";
 }
-@*style="display:flex;justify-content:center"*@
-<style>
-    fieldset.scheduler-border {
-        border: solid 1px #DDD !important;
-        padding: 0 10px 10px 10px;
-        border-bottom: none;
-    }
-
-    legend.scheduler-border {
-        width: auto !important;
-        border: none;
-        font-size: 14px;
-    }
-    legend{
-        font-size : 20px;
-    }
-    .required{
-        color:red;
-        font-size:14px;
-        font-weight:bold;
-    }
-</style>
+<link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
+<link href="~/lib/froala-editor/css/froala_editor.min.css" rel="stylesheet" />
+<script type="text/javascript" src="~/lib/froala-editor/js/froala_editor.min.js"></script>
 <div>
-    @if (TempData["msg"] != null)
-    {
-        <div class="alert alert-@TempData["type"]" role="alert">
-            @TempData["msg"]
-        </div>
-    }
+    <div class="mt-4">
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-@TempData["type"]" role="alert">
+                @TempData["msg"]
+            </div>
+        }
+
+        <span class="my-2 bold">All Fields Marked As <span class="required">*</span> Are Required </span>
+    </div>
     <form enctype="multipart/form-data" asp-action="Register">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <fieldset class="border p-2" style="display:flex;justify-content:center;">
@@ -44,7 +29,7 @@
                 <div class="form-group row m-2">
                     <label asp-for="Email" class="col-4 col-form-label">Email Address<sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="Email" class="form-control" />
+                        <input asp-for="Email" placeholder="Enter Email Address" class="form-control" autofocus />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
@@ -52,28 +37,28 @@
                 <div class="form-group row m-2">
                     <label asp-for="AlternateEmail" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="AlternateEmail" class="form-control" />
+                        <input asp-for="AlternateEmail" placeholder="Enter Alternate Email Address" class="form-control" />
                         <span asp-validation-for="AlternateEmail" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="FirstName" class="col-4 control-label">First Name<sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="FirstName" class="form-control" />
+                        <input asp-for="FirstName" placeholder="Enter First Name" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="LastName" class="col-4 control-label">Last Name<sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="LastName" class="form-control" />
+                        <input asp-for="LastName" placeholder="Enter Last Name" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="Password" class="col-4 control-label">Choose a Password <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="Password" class="form-control" />
+                        <input asp-for="Password" placeholder="Enter Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
@@ -81,7 +66,7 @@
                 <div class="form-group row m-2">
                     <label asp-for="ConfirmPassword" class="col-4 control-label">Re-enter Password <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <input asp-for="ConfirmPassword" placeholder="Enter Password Again" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                 </div>
@@ -89,11 +74,8 @@
                 <div class="form-group row m-2">
                     <label asp-for="JobType" class="col-4 control-label">Looking For <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <select asp-for="JobType" class="form-control">
+                        <select asp-for="JobType" name="JobTypes" class="form-control" size="4" asp-items="@ViewBag.JobTypes" multiple>
                             <option value="">-Select type-</option>
-                            <option value="Internship/Projects/Part-Time jobs">Internship/Projects/Part-Time jobs</option>
-                            <option value="Jobs">Jobs (fulltime,undergraduate,retirement)</option>
-                            <option value="Overseas Jobs">Overseas Jobs</option>
                         </select>
                         <span asp-validation-for="JobType" class="text-danger"></span>
                     </div>
@@ -112,7 +94,7 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+        <fieldset class="border p-4 m-2" style="display:flex;justify-content:center;">
             <legend class="float-none w-auto">
                 Personal Details
             </legend>
@@ -121,14 +103,14 @@
                 <div class="form-group row m-2">
                     <label asp-for="PhoneNo" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="PhoneNo" class="form-control" />
+                        <input asp-for="PhoneNo" placeholder="Enter Phone Number" class="form-control" />
                         <span asp-validation-for="PhoneNo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
-                    <label asp-for="MobileNo" class="col-4 control-label"></label>
+                    <label asp-for="MobileNo" class="col-4 control-label">Mobile <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="MobileNo" class="form-control" />
+                        <input asp-for="MobileNo" placeholder="Enter Mobile Number" class="form-control" />
                         <span asp-validation-for="MobileNo" class="text-danger"></span>
                     </div>
                 </div>
@@ -151,7 +133,10 @@
                 <div class="form-group row m-2">
                     <label asp-for="MaritialStatus" class="col-4 control-label">Maritial Status <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="MaritialStatus" class="form-control" />
+                        <select asp-for="MaritialStatus" class="form-control">
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                        </select>
                         <span asp-validation-for="MaritialStatus" class="text-danger"></span>
                     </div>
                 </div>
@@ -175,7 +160,7 @@
                 <div class="form-group row m-2">
                     <label asp-for="District" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="District" class="form-control" />
+                        <input asp-for="District" placeholder="Enter District" class="form-control" />
                         <span asp-validation-for="District" class="text-danger"></span>
                     </div>
                 </div>
@@ -183,27 +168,27 @@
                     <label asp-for="CityId" class="col-4 control-label">City <sup class='required'>*</sup></label>
                     <div class="col-8">
                         <select asp-for="CityId" class="form-control" id="DdlCity">
-                            <option value=""> Select Country</option>
+                            <option value=""> Select City</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="Locality" class="col-4 control-label">Locality <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="Locality" class="form-control" />
+                        <input asp-for="Locality" placeholder="Enter Locality" class="form-control" />
                         <span asp-validation-for="Locality" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="ZipCode" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="ZipCode" class="form-control" />
+                        <input asp-for="ZipCode" placeholder="Enter Zip Code" class="form-control" />
                         <span asp-validation-for="ZipCode" class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </fieldset>
-        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+        <fieldset class="border p-4 m-2" style="display:flex;justify-content:center;">
             <legend class="float-none w-auto">
                 Education Qualification
             </legend>
@@ -213,7 +198,7 @@
                     <label asp-for="HighestQualification" class="col-4 control-label">Highest Qualification Held <sup class='required'>*</sup></label>
                     <div class="col-8">
                         <select asp-for="HighestQualification" class="form-control">
-                            <option value="" selected="selected" disabled="disabled">-Select Highest Qualification-</option>
+                            <option value="" selected="selected">-Select Highest Qualification-</option>
                             <option value="No formal education">No formal education</option>
                             <option value="Primary education">Primary education</option>
                             <option value="Secondary education">Secondary education or high school</option>
@@ -244,13 +229,14 @@
                 <div class="form-group row m-2">
                     <label asp-for="Institute" class="col-4 control-label">Institute <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <select asp-for="Institute" class="form-control">
+                        <select asp-for="Institute" id="DdlInstitute" class="form-control">
                             <option value="">-Select Institute-</option>
                             <option value="IISc">IISc</option>
                             <option value="Jawahar Lal Nehru University">Jawahar Lal Nehru University</option>
                             <option value="University Of Mumbai">University Of Mumbai</option>
                             <option value="Indian Institute of Science Education & Research Bhopal">Indian Institute of Science Education & Research Bhopal</option>
                             <option value="Mahatma Gandhi University">Mahatma Gandhi University</option>
+                            <option value="other">Other Institute</option>
                         </select>
                         <span asp-validation-for="Institute" class="text-danger"></span>
                     </div>
@@ -258,23 +244,23 @@
                 <div class="form-group row m-2">
                     <label asp-for="OtherInstitute" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="OtherInstitute" class="form-control" />
+                        <input asp-for="OtherInstitute" placeholder="Other Institute" id="TxtOtherInstitute" class="form-control" disabled />
                         <span asp-validation-for="OtherInstitute" class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </fieldset>
-        <fieldset class="border p-2" style="display:flex;justify-content:center;">
+        <fieldset class="border p-4 m-2" style="display:flex;justify-content:center;">
             <legend class="float-none w-auto">
                 Professional Details
             </legend>
             <div class="col-8">
 
                 <div class="form-group row m-2">
-                    <label asp-for="PrefferedLocation" class="col-4 control-label"></label>
+                    <label asp-for="PrefferedLocation" class="col-4 control-label">Preferred Location</label>
                     <div class="col-8">
                         <select asp-for="PrefferedLocation" class="form-control">
-                            <option value="">-Select-Preferd-Location-</option>
+                            <option value="">-Select-Preferred-Location-</option>
                             <option value="Mumbai">Mumbai</option>
                             <option value="Delhi ">Delhi</option>
                             <option value="Noida">Pune</option>
@@ -295,13 +281,36 @@
                         <span asp-validation-for="ReadyToRelocate" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="form-group row m-2">
                     <label asp-for="TotalExperience" class="col-4 control-label">Total Experience <sup class='required'>*</sup></label>
-                    <div class="col-8">
-                        <input asp-for="TotalExperience" class="form-control" />
-                        <span asp-validation-for="TotalExperience" class="text-danger"></span>
+                    <div class="col-4">
+                        <select asp-for="ExperienceYears" class="form-control" id="DdlExpYear" asp-items="@ViewBag.YearList">
+                            <option value="0">0</option>
+                        </select>
+                        <label asp-for="ExperienceYears">(years)</label>
+
+                    </div>
+                    <div class="col-4">
+                        <select asp-for="ExperienceMonths" class="form-control" id="DdlExpMonths" asp-items="@ViewBag.MonthList">
+                            <option value="0">0</option>
+                        </select>
+                        <label asp-for="ExperienceMonths">(months)</label>
+
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                    </div>
+                    <div class="col-4">
+                        <span asp-validation-for="ExperienceMonths" class="text-danger"></span>
+                    </div>
+                </div>
+
                 <div class="form-group row m-2">
                     <label asp-for="JobCategory" class="col-4 control-label">Job Category <sup class='required'>*</sup></label>
                     <div class="col-8">
@@ -318,7 +327,7 @@
                 <div class="form-group row m-2">
                     <label asp-for="KeySkills" class="col-4 control-label">Key Skills <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="KeySkills" class="form-control" />
+                        <input asp-for="KeySkills" placeholder="Enter Key Skills" class="form-control" />
                         <span asp-validation-for="KeySkills" class="text-danger"></span>
                     </div>
                 </div>
@@ -337,28 +346,28 @@
                 <div class="form-group row m-2">
                     <label asp-for="CurrentEmployer" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="CurrentEmployer" class="form-control" />
+                        <input asp-for="CurrentEmployer" placeholder="Enter Current Employer" class="form-control" />
                         <span asp-validation-for="CurrentEmployer" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="CurrentDesignation" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="CurrentDesignation" class="form-control" />
+                        <input asp-for="CurrentDesignation" placeholder="Enter Current Designation" class="form-control" />
                         <span asp-validation-for="CurrentDesignation" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
-                    <label asp-for="PreviousEmployer" class="col-4 control-label"></label>
+                    <label asp-for="PreviousEmployer" placeholder="Enter Previous Employer" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="PreviousEmployer" class="form-control" />
+                        <input asp-for="PreviousEmployer" placeholder="Enter Previous Employer" class="form-control" />
                         <span asp-validation-for="PreviousEmployer" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label asp-for="PreviousDesignation" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="PreviousDesignation" class="form-control" />
+                        <input asp-for="PreviousDesignation" placeholder="Enter Previous Designation" class="form-control" />
                         <span asp-validation-for="PreviousDesignation" class="text-danger"></span>
                     </div>
                 </div>
@@ -374,18 +383,29 @@
                         <span asp-validation-for="NoticePeriod" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="form-group row m-2">
-                    <label asp-for="Ctc" class="col-4 control-label"></label>
-                    <div class="col-8">
-                        <input asp-for="Ctc" class="form-control" />
-                        <span asp-validation-for="Ctc" class="text-danger"></span>
+                    <label asp-for="Ctc" class="col-4 control-label">CTC (per anum)</label>
+                    <div class="col-4">
+                        <select asp-for="CtcLakhs" class="form-control" id="DdlCtcLakhs" asp-items="@ViewBag.LakhList">
+                            <option value="0">0</option>
+                        </select>
+                        <label asp-for="CtcLakhs">(lakhs)</label>
+
+                    </div>
+                    <div class="col-4">
+                        <select asp-for="CtcThousands" class="form-control" id="DdlCtcThousands" asp-items="@ViewBag.ThousandList">
+                            <option value="0">0</option>
+                        </select>
+                        <label asp-for="CtcThousands">(thousands)</label>
+
                     </div>
                 </div>
 
                 <div class="form-group row m-2">
                     <label asp-for="ResumeTitle" class="col-4 control-label">Resume Title <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="ResumeTitle" class="form-control" />
+                        <input asp-for="ResumeTitle" placeholder="Enter Resume Title" class="form-control" />
                         <span asp-validation-for="ResumeTitle" class="text-danger"></span>
                     </div>
                 </div>
@@ -393,28 +413,27 @@
                 <div class="form-group row m-2">
                     <label class="col-4 control-label">Upload Resume</label>
                     <div class="col-8">
-                        <input type="file" name="resume" class="form-control" id="formFile">
+                        <input type="file" accept=".doc, .docx" id="File" name="resume" class="form-control">
+                        <span class="text-danger" id="FileError"></span>
                     </div>
                 </div>
 
                 <div class="form-group row m-2">
                     <label asp-for="Resume" class="col-4 control-label"></label>
                     <div class="col-8">
-                        <input asp-for="Resume" class="form-control" />
+                        <textarea asp-for="Resume" name="TxtResume" id="TxtResume" class="form-control" cols="10" rows="10">
+
+                        </textarea>
                         <span asp-validation-for="Resume" class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </fieldset>
         <div class="form-group text-center">
-            <input type="submit" value="Create" class="btn btn-primary mt-4" />
+            <input type="reset" value="Reset" class="btn btn-secondary m-4" />
+            <input type="submit" value="Create" class="btn btn-primary m-4" />
         </div>
     </form>
-</div>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -424,3 +443,42 @@
     }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/Register.js"></script>
+
+    <script>
+
+        var editor = new FroalaEditor('#TxtResume', {
+            height: 300,
+            width: 600,
+        });
+
+        $("#DdlInstitute").on("change", (e) => {
+            const instituteValue = e.target.value;
+            if (instituteValue == "other") {
+                $("#TxtOtherInstitute").prop("disabled", false);
+            }else{
+                 $("#TxtOtherInstitute").val("");
+                 $("#TxtOtherInstitute").prop("disabled", true);
+            }
+        });
+
+        let maxFileSize = 4 * 1024 * 1024;
+        $("#File").change(function () {
+            fileSize = this.files[0].size;
+            console.log(this.value);
+            if (fileSize > maxFileSize) {
+                this.setCustomValidity("File size should be less than 4 mb");
+                this.reportValidity();
+                this.value = '';
+                $("#FileError").text("File size should be less than 4 mb");
+            }
+            else {
+                this.setCustomValidity("");
+                $("#FileError").text("");
+            }
+        });
+
+        $("#TxtResume").on("focus", (e) => {
+            $("#FileError").text("");
+        })
+
+    </script>

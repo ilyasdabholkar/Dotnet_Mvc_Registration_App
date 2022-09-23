@@ -17,9 +17,24 @@ namespace RegisterModule.Service
             return true;
         }
 
+        public List<User> GetAllUsers()
+        {
+            return _userRepository.GetAllUsers();
+        }
+
         public User FindByEmail(string email)
         {
             return _userRepository.GetAllUsers().FirstOrDefault(u => u.Email == email);
+        }
+
+        public User FindByAlternateEmail(string email)
+        {
+            return _userRepository.GetAllUsers().FirstOrDefault(u => u.AlternateEmail == email);
+        }
+
+        public User FindByMobile(string mobile)
+        {
+            return _userRepository.GetAllUsers().FirstOrDefault(u => u.MobileNo == mobile);
         }
     }
 }

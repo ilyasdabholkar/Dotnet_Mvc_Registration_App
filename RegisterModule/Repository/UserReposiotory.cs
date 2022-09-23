@@ -1,4 +1,5 @@
-﻿using RegisterModule.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using RegisterModule.Context;
 using RegisterModule.Interfaces;
 using RegisterModule.Models;
 
@@ -30,8 +31,18 @@ namespace RegisterModule.Repository
         public List<User> GetAllUsers()
         {
 
-            List<User> users = _dbContext.User.ToList();
-            return users;
+            try
+            {
+                List<User> users = _dbContext.User.Include("Country").Include("State").Include("City")
+                    .Include(x=>x.UserJobTypes).ThenInclude(x=>x.JobType).Where(i=>i.IsDeleted == false).ToList();
+                return users;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<User>();
+            }
+
         }
     }
 }

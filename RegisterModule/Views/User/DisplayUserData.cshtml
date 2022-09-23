@@ -1,0 +1,286 @@
+﻿@model IEnumerable<RegisterModule.Models.User>
+@using RegisterModule.Enums;
+
+@{
+    ViewData["Title"] = "DisplayUserData";
+}
+
+@*<link rel="stylesheet" href="~/css/table.css" />*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+
+<table id="UserTable" class="table table-striped" style="width:100%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Alternate Email
+            </th>
+            <th>
+                Name
+            </th>
+            <th data-orderable="false">
+                Looking For
+            </th>
+            <th>
+                Status
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </th>
+            <th data-orderable="false">
+                Mobile Number
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th data-orderable="false">
+                Maritial Status
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Locality)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </th>
+            <th>
+                Highest Qualification
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.Specialization)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.Institute)
+            </th>
+            <th data-orderable="false">
+                Other Institute
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.PrefferedLocation)
+            </th>
+            <th data-orderable="false">
+                Ready To Relocate
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalExperience)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.JobCategory)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.KeySkills)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CurrentIndustry)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CurrentEmployer)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CurrentDesignation)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.PreviousEmployer)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.PreviousDesignation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoticePeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ctc)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.ResumeTitle)
+            </th>
+            <th data-orderable="false">
+                Uploaded Resume
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.Resume)
+            </th>*@
+            @*<th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>*@
+            <th data-orderable="false">
+                Registered On
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.DeletedOn)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+           @* <th data-orderable="false"> Actions </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="no-decoration">
+                    @Html.DisplayFor(modelItem => item.Email,new { @class = "no-decoration" })
+                </td>
+                <td class="no-decoration
+">
+                    @Html.DisplayFor(modelItem => item.AlternateEmail,new { @class="no-decoration" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @{
+                        var userJobTypes = item.UserJobTypes;
+                        var jobtypes = "";
+
+                        foreach (var element in userJobTypes)
+                        {
+                            jobtypes += element.JobType.Type.ToString();
+                        }
+                    }
+                    @jobtypes
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmploymentStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @{
+                        var gender = Enum.GetName(typeof(GenderEnum), Convert.ToInt32(item.Gender));
+                    }
+                    @gender
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaritialStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.District)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Locality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HighestQualification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialization)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Institute)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OtherInstitute)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrefferedLocation)
+                </td>
+                <td>
+                    @if (item.ReadyToRelocate == true)
+                    {
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                    @*  @Html.DisplayFor(modelItem => item.ReadyToRelocate)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalExperience)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeySkills)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentIndustry)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentEmployer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentDesignation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreviousEmployer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreviousDesignation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoticePeriod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ctc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResumeTitle)
+                </td>
+                <td>
+                    @if(item.ResumePath != ""){
+                        <a asp-action="DownloadResume" class="btn btn-sm btn-info text-light" asp-route-fileName="@item.ResumePath">View</a>
+                    }
+                   @* @Html.DisplayFor(modelItem => item.ResumePath)*@
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Resume)
+            </td>*@
+                @*  <td>
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>*@
+                <td>
+                    @Convert.ToDateTime(item.CreatedOn).ToString("dd/MM/yyyy")
+
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.DeletedOn)
+            </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+              @*  <td>
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.UserId">Edit</a>
+                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.UserId">Details</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.UserId">Delete</a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+

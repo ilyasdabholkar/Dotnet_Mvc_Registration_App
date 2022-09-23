@@ -5,6 +5,8 @@
     const ddlCity = $("#DdlCity");
 
     ddlCountry.on("change", (e) => {
+        ddlState.empty().append('<option selected="selected" value="">Select State</option>');
+        ddlCity.empty().append('<option selected="selected" value="">Select City</option>');
         const countryId = e.target.value;
         $.ajax({
             type: "POST",
@@ -15,7 +17,6 @@
             success: function (response) {
                 console.log(countryId)
                 console.log(response);
-                ddlState.empty().append('<option selected="selected" value="">Select State</option>');
                 $.each(response, function () {
                     ddlState.append($("<option></option>").val(this['value']).html(this['text']));
                 });
@@ -30,6 +31,7 @@
     });
 
     ddlState.on("change", (e) => {
+        ddlCity.empty().append('<option selected="selected" value="">Select City</option>');
         const stateId = e.target.value;
         $.ajax({
             type: "POST",
@@ -39,7 +41,6 @@
             dataType: "json",
             success: function (response) {
                 console.log(response);
-                ddlCity.empty().append('<option selected="selected" value="">Select City</option>');
                 $.each(response, function () {
                     ddlCity.append($("<option></option>").val(this['value']).html(this['text']));
                 });
@@ -51,5 +52,5 @@
                 console.log(response);
             }
         });
-    })
+    });
 });

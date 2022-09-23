@@ -61,6 +61,23 @@ namespace RegisterModule.Migrations
                     b.ToTable("Country");
                 });
 
+            modelBuilder.Entity("RegisterModule.Models.JobType", b =>
+                {
+                    b.Property<int>("JobId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobId"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("JobId");
+
+                    b.ToTable("JobTypes");
+                });
+
             modelBuilder.Entity("RegisterModule.Models.State", b =>
                 {
                     b.Property<int>("StateId")
@@ -165,11 +182,6 @@ namespace RegisterModule.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("JobType")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
                     b.Property<string>("KeySkills")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
@@ -189,6 +201,7 @@ namespace RegisterModule.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("MobileNo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoticePeriod")
@@ -199,10 +212,12 @@ namespace RegisterModule.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhoneNo")
                         .HasColumnType("nvarchar(max)");
@@ -262,6 +277,29 @@ namespace RegisterModule.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("RegisterModule.Models.UserJobType", b =>
+                {
+                    b.Property<int>("UserJobId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserJobId"), 1L, 1);
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserJobId");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserJobType");
+                });
+
             modelBuilder.Entity("RegisterModule.Models.City", b =>
                 {
                     b.HasOne("RegisterModule.Models.State", "State")
@@ -309,6 +347,25 @@ namespace RegisterModule.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("State");
+                });
+
+            modelBuilder.Entity("RegisterModule.Models.UserJobType", b =>
+                {
+                    b.HasOne("RegisterModule.Models.JobType", "JobType")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("RegisterModule.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("JobType");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

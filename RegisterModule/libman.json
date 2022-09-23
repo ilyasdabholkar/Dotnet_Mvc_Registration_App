@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "froala-editor@4.0.14",
+      "destination": "wwwroot/lib/froala-editor/"
+    },
+    {
+      "library": "font-awesome@6.2.0",
+      "destination": "wwwroot/lib/font-awesome/"
+    }
+  ,
+{
+  "provider": "cdnjs",
+  "library": "datatables.net@2.1.1",
+  "destination": "wwwroot/lib/datatables.net/"
+}
+,
+{
+  "provider": "cdnjs",
+  "library": "datatables.net@2.1.1",
+  "destination": "wwwroot/lib/datatables.net/"
+}
+]
+}
