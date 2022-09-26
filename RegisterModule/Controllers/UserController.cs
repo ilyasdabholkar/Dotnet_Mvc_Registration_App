@@ -80,6 +80,7 @@ namespace RegisterModule.Controllers
             ModelState.Remove("TotalExperience");
             ModelState.Remove("PasswordSalt");
             ModelState.Remove("JobType");
+            ModelState.Remove("UserJobTypes");
             if (ModelState.IsValid)
             {
 
@@ -134,7 +135,7 @@ namespace RegisterModule.Controllers
         [HttpGet]
         public IActionResult DownloadResume(string fileName)
         {
-            var path = Path.Combine(_configuration.GetValue<string>("AppConfig:ResumeUploadPath"),fileName );
+            var path = Path.Combine(_configuration.GetValue<string>("AppConfig:ResumeUploadPath"), fileName);
             var fs = new FileStream(path, FileMode.Open);
             return File(fs, "application/octet-stream", fileName);
         }

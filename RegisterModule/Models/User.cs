@@ -90,6 +90,7 @@ namespace RegisterModule.Models
         [Display(Name = "Date Of Birth")]
         [Remote("IsDateValid", "User", HttpMethod = "POST", ErrorMessage = "Age must be greater than 18")]
         [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
 
         [Required]
@@ -235,7 +236,7 @@ namespace RegisterModule.Models
         [ForeignKey("CityId")]
         public virtual City? City { get; set; }
 
-        public virtual ICollection<UserJobType> UserJobTypes { get; set; }
+        public virtual ICollection<UserJobType>? UserJobTypes { get; set; }
 
     }
 }

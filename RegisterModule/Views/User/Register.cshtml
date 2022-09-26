@@ -117,7 +117,7 @@
                 <div class="form-group row m-2">
                     <label asp-for="DateOfBirth" class="col-4 control-label"> Date Of Birth <sup class='required'>*</sup></label>
                     <div class="col-8">
-                        <input asp-for="DateOfBirth" class="form-control" />
+                        <input asp-for="DateOfBirth"  asp-format="{0:dd'/'MM'/'yyyy}" class="form-control" />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
                 </div>
