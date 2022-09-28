@@ -138,6 +138,14 @@ namespace RegisterModule.Controllers
             var path = Path.Combine(_configuration.GetValue<string>("AppConfig:ResumeUploadPath"), fileName);
             var fs = new FileStream(path, FileMode.Open);
             return File(fs, "application/octet-stream", fileName);
+
+        }
+        
+        public IActionResult PrintDetails(int id)
+        {
+            User user = _userService.GetAllUsers().FirstOrDefault(item => item.UserId == id);
+            Console.WriteLine($"#########################{user.FirstName}");
+            return RedirectToAction("DisplayUserData");
         }
 
         //Remote validation

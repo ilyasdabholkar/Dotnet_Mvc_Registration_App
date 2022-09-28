@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RegisterModule.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -39,25 +40,131 @@
         </main>
     </div>
 
-   @* <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - RegisterModule - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
     <script>
         $(document).ready(function () {
-            $('.table').DataTable({
+            var table = $('.table').DataTable({
                 scrollX: true,
+                //responsive: true,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All'],
+                ],
+                dom: '<"dt-top-container" <l> <"dt-center-in-div"B> <f>r> t <"dt-filter-spacer"f><ip>',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: 'Csv',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'print',
+                        text: 'Print all',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                selected: null
+                            }
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print selected'
+                    },
+                    'colvis'
+                ],
+
+                select: true
             });
+
+            $('.table').on('click', '.print_btn', function () {
+                console.log("inside")
+
+                var data_row = table.row($(this).closest('tr')).data();
+                console.log(data_row)
+                var docDefinition = {
+                    content: [
+                        { canvas: [{ type: 'rect', x: 0, y: 0, w: 500, h: 28, color: '#0B0B60' }] }, { text: 'Login Details', color: '#e4ebef', alignment: 'left', margin: [9, -23, 9, 9
+                        ] },
+                        "Name : " + data_row[0].replace(/<[^>]+>/g, ''),
+                        "Alternate Email : " + data_row[1].replace(/<[^>]+>/g, ''),
+                        "Full Name : " + data_row[2],
+                        "Looking For : " + data_row[3],
+                        "Status : " + data_row[4].replace(/<[^>]+>/g, ''),
+                        { canvas: [{ type: 'rect', x: 0, y: 0, w: 500, h: 28, color: '#0B0B60' }] }, { text: 'Personal Details', color: '#e4ebef', alignment: 'left', margin: [9, -23, 9, 9] },
+                        "Phone no : " + data_row[5],
+                        "Mobile no : " + data_row[6],
+                        "Date Of Birth : " + data_row[7],
+                        "Gender : " + data_row[8],
+                        "Maritial Status : " + data_row[9],
+                        "District : " + data_row[10],
+                        "Locality : " + data_row[11],
+                        "ZipCode : " + data_row[12],
+                        { canvas: [{ type: 'rect', x: 0, y: 0, w: 500, h: 28, color: '#0B0B60' }] }, { text: 'Education Details', color: '#e4ebef', alignment: 'left', margin: [9, -23, 9, 9] },
+                        "Highest Qualification : " + data_row[12],
+                        "Specialization : " + data_row[14],
+                        "Institute : " + data_row[15],
+                        "Other Institute : " + data_row[16],
+                        { canvas: [{ type: 'rect', x: 0, y: 0, w: 500, h: 28, color: '#0B0B60' }] }, { text: 'Professional Details', color: '#e4ebef', alignment: 'left', margin: [9, -23, 9, 9] },
+                        "Preffered Location : " + data_row[17],
+                        "Ready To Relocate : " + data_row[18].replace(/<[^>]+>/g, ''),
+                        "Total Experience Months : " + data_row[19],
+                        "Job Category : " + data_row[20],
+                        "Key Skills : " + data_row[21],
+                        "Current Industry : "+data_row[22],
+                        "Current Employer : "+data_row[23],
+                        "Current Designation : "+data_row[24],
+                        "Previous Employer : " + data_row[25],
+                        "Previous Designation : " + data_row[26],
+                        "Notice Period : " + data_row[27],
+                        "CTC : " + data_row[28],
+                        "Resume Title : "+data_row[29],
+                        "Registered On : " + data_row[32],
+                        "Country : "+data_row[33],
+                        "State : " + data_row[34],
+                        "City : " + data_row[35],
+                    ]
+
+                   
+
+                };
+
+                pdfMake.createPdf(docDefinition).open();
+
+
+            })
         });
+
+
+
     </script>
 </body>
 </html>

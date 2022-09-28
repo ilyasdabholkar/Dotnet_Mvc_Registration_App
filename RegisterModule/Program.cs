@@ -3,6 +3,7 @@ using RegisterModule.Context;
 using RegisterModule.Interfaces;
 using RegisterModule.Repository;
 using RegisterModule.Service;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
